@@ -1,68 +1,52 @@
-
 const renderGifts = async () => {
-  const mainContent = document.getElementById('main-content')
-
-  try {
-    const response = await fetch('/gifts')
-
-    if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`)
-    }
-
+    
+    const response = await fetch('/gifts/giftId')
     const data = await response.json()
 
-    if (data && data.length) {
-      data.map(gift => {
-        const card = document.createElement('div')
-        card.className = 'card'
+    const mainContent = document.getElementById('main-content')
 
-        const topContainer = document.createElement('div')
-        topContainer.className = 'top-container'
-        topContainer.style.backgroundImage = `url(${gift.image})`
+    if (data) {
 
-        const bottomContainer = document.createElement('div')
-        bottomContainer.className = 'bottom-container'
+        data.map(gift => {
+            const card = document.createElement('div')
+            card.classList.add('card')
 
-        const name = document.createElement('h3')
-        name.textContent = gift.name
-        bottomContainer.appendChild(name)
+            const topContainer = document.createElement('div')
+            topContainer.classList.add('top-container')
 
-        const price = document.createElement('p')
-        price.textContent = `Price: ${gift.pricePoint}`
-        bottomContainer.appendChild(price)
+            const bottomContainer = document.createElement('div')
+            bottomContainer.classList.add('bottom-container')
 
-        const audience = document.createElement('p')
-        audience.textContent = `For: ${gift.audience}`
-        bottomContainer.appendChild(audience)
+            topContainer.style.backgroundImage = `url(${gift.image})`
 
-        const readMore = document.createElement('a')
-        readMore.textContent = 'Read More >'
-        readMore.href = `/gifts/${gift.id}`
-        readMore.role = 'button'
-        bottomContainer.appendChild(readMore)
+            const name = document.createElement('h3')
+            name.textContent = gift.name
+            bottomContainer.appendChild(name)
 
-        card.appendChild(topContainer)
-        card.appendChild(bottomContainer)
-        mainContent.appendChild(card)
-      })
-    } else {
-      const card = document.createElement('div')
-      const msg = document.createElement('h2')
-      msg.textContent = 'No Gifts Available 😞'
-      mainContent.appendChild(msg)
+            const pricePoint = document.createElement('p')
+            pricePoint.textContent = 'Price: ' + gift.pricePoint
+            bottomContainer.appendChild(pricePoint)
+
+            const audience = document.createElement('p')
+            audience.textContent = 'Great For: ' + gift.audience
+            bottomContainer.appendChild(audience)
+
+            const link = document.createElement('a')
+            link.textContent = 'Read More >'
+            link.setAttribute('role', 'button')
+            link.href = `/gifts/${gift.id}`
+            bottomContainer.appendChild(link)
+
+            card.appendChild(topContainer)
+            card.appendChild(bottomContainer) 
+            mainContent.appendChild(card)
+        })
     }
-  } catch (error) {
-    const msg = document.createElement('h2')
-    msg.textContent = 'Could not load gifts. Make sure the API server is running on port 3001.'
-    mainContent.appendChild(msg)
-  }
+    else {
+        const message = document.createElement('h2')
+        message.textContent = 'No Gifts Available 😞'
+        mainContent.appendChild(message)
+    }
 }
 
-const currentPath = window.location.pathname
-const isHome = currentPath === '/' || currentPath === '/index.html'
-
-if (!isHome) {
-  window.location.href = '/404.html'
-} else {
-  renderGifts()
-}
+renderGifts()

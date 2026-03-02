@@ -1,25 +1,20 @@
-
 const header = document.querySelector('header')
 
 const headerContainer = document.createElement('div')
 headerContainer.className = 'header-container'
 
-// Left side - logo and title
 const headerLeft = document.createElement('div')
 headerLeft.className = 'header-left'
 
-const logo = document.createElement('img')
-logo.src = '/logo.png'
-logo.alt = 'UnEarthed Logo'
-logo.className = 'header-logo'
+const headerLogo = document.createElement('img')
+headerLogo.src = '/logo.png'
 
-const title = document.createElement('h1')
-title.textContent = 'UnEarthed'
+const headerTitle = document.createElement('h1')
+headerTitle.textContent = 'UnEarthed'
 
-headerLeft.appendChild(logo)
-headerLeft.appendChild(title)
+headerLeft.appendChild(headerLogo)
+headerLeft.appendChild(headerTitle)
 
-// Right side - home button
 const headerRight = document.createElement('div')
 headerRight.className = 'header-right'
 
@@ -32,7 +27,7 @@ headerButton.addEventListener('click', function handleClick(event) {
 
 headerRight.appendChild(headerButton)
 
-// Assemble header
 headerContainer.appendChild(headerLeft)
 headerContainer.appendChild(headerRight)
+
 header.appendChild(headerContainer)
